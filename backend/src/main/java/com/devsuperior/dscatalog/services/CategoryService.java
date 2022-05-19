@@ -10,6 +10,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +50,13 @@ public class CategoryService {
 		
 		return listDTO;
 	}
+	
+	@Transactional(readOnly = true)
+	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest){
+		Page<Category> list = repo.findAll(pageRequest);
+		
+		return list.map(x -> new CategoryDTO(x));
+	}
 
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id){
@@ -57,6 +66,7 @@ public class CategoryService {
 		 * Você deve usar o método ".get()" para pegar o objeto porém se não encontrar vai estourar um erro não tratado
 		 * então usamos o método ".orElseThrow()" que tb vai tentar pegar o objeto porém se der erro vai estourar a excessão que vc personalizou
 		 */
+		
 		Optional<Category> obj = repo.findById(id);
 		//Category entity = obj.get();
 		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
