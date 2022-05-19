@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,4 +62,18 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<CategoryDTO> delete(@PathVariable Long id) {
+		service.delete(id);
+		
+		/*
+		 * como é um método de "delete" não tem corpo na resposta, então pode utilizar da 
+		 * forma abaixo. Isso vai retornar um código 204 que dqeur dizer que a requisição deu 
+		 * certo e que o corpo está vazio.
+		 * Se quiser ao invés de retornar ResponseEntity<CategoryDTO> pode retornar o tipo
+		 * ResponseEntity<Void>
+		 */
+		
+		return ResponseEntity.noContent().build();
+	}
 }
