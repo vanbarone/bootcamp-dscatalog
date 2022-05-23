@@ -105,7 +105,8 @@ public class CategoryService {
 	}
 	
 	public void delete(Long id) {
-		/* Não utiliza a marcação "Transactional
+		/* Não utiliza a marcação "Transactional" pq senão não consegue capturar a 
+		 * excessão que vem do banco
 		 */
 		
 		try {
