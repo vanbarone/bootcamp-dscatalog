@@ -67,11 +67,15 @@ public class CategoryService {
 		 * então usamos o método ".orElseThrow()" que tb vai tentar pegar o objeto porém se der erro vai estourar a excessão que vc personalizou
 		 */
 		
-		Optional<Category> obj = repo.findById(id);
-		//Category entity = obj.get();
-		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+		try {
+			Optional<Category> obj = repo.findById(id);
+			//Category entity = obj.get();
+			Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
 				
-		return new CategoryDTO(entity);
+			return new CategoryDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}
 	}
 	
 	@Transactional
