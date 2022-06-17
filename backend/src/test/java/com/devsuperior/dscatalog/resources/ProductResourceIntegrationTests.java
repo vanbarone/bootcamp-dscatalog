@@ -98,6 +98,4 @@ public class ProductResourceIntegrationTests {
 		result.andExpect(status().isNotFound());
 	}
 	
-	
-	
 }
